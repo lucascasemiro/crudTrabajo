@@ -23,3 +23,14 @@ async function connect() {
   }
 
   connect();
+
+ async function insertCostumers(costumer) {
+    const client = await connect();
+    const sql = "INSERT INTO client(cpf, nome, email, idade, profissao) VALUES($1, $2, $3, $4, $5);"
+    const values = [costumer.cpf, costumer.nome, costumer.email, costumer.idade, costumer.profissao];
+    await client.query(sql, values);
+  }
+
+  module.expors = {
+    insertCostumers
+  }
