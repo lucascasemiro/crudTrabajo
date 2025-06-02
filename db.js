@@ -24,19 +24,28 @@ async function connect() {
 
 connect();
 
+async function selectCostumers() {
+  const client = await connect();
+  const res = await client.query("SELECT * FROM client");
+  return res.rows;
+  }
+
+  async function selectCostumer(id) {
+    const client = await connect();
+    const res = await client.query("SELECT * FROM client WHERE cpf=$1", [id]);
+    return res.rows;
+    }
 
 async function insertCostumers(customer) {
-
   const client = await connect()
-
   const sql = "INSERT INTO client(cpf, nome, email, idade, profissao) VALUES($1, $2, $3, $4, $5)"
-
   const values = [ customer.cpf, customer.nome, customer.email, customer.idade, customer.profissao ];
-
   await client.query(sql, values);
 
 }  
 
 module.exports = {
-  insertCostumers
-}
+  insertCostumers,
+  selectCostumers,
+  selectCostumer
+  }
